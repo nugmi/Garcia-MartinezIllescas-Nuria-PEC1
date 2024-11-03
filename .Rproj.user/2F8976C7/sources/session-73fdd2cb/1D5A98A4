@@ -3,9 +3,9 @@
     "path": "~/Desktop/Bioinformatica/03_Semestre/Análisis de datos ómicos/04.PEC01/PEC01/PEC01_NGMI.Rmd",
     "project_path": "PEC01_NGMI.Rmd",
     "type": "r_markdown",
-    "hash": "1443323583",
+    "hash": "3499973017",
     "contents": "",
-    "dirty": false,
+    "dirty": true,
     "created": 1730636371432.0,
     "source_on_save": false,
     "relative_order": 1,
@@ -13,15 +13,15 @@
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "1,0",
-        "scrollLine": "0"
+        "cursorPosition": "34,13",
+        "scrollLine": "15"
     },
     "folds": "",
-    "lastKnownWriteTime": 1730636384,
+    "lastKnownWriteTime": 1730637948,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1730636384253,
+    "last_content_update": 1730638142108,
     "read_only": false,
     "read_only_alternatives": []
 }
