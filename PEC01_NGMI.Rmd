@@ -22,5 +22,98 @@ knitr::opts_chunk$set(echo = TRUE)
 # ...
 
 library(knitr)
+library(SummarizedExperiment)
+library(ggplot2)
+library(factoextra)
 ```
 
+# PEC 01 · Las ómicas
+
+## Abstract
+
+## Objetivos
+
+El objetivo del presente informe es investigar la relación entre la pérdida de masa
+muscular (denominada cachexia) y los datos metabolómicos de un conjunto de muestras
+biológicas. 
+
+## Materiales y métodos
+
+Los datos analizados en este estudio fueron obtenidos de [esta URL](https://rest.xialab.ca/api/download/metaboanalyst/human_cachexia.csv) sobre
+un conjunto de muestras de orina de pacientes diagnosticados con cachexia y controles
+sanos. 
+
+Los datos fueron almacenados para su organización en la clase SummarizedExperiment con
+la finalidad de integrar los datos y metadatos de las muestras. Adiocionalmente se
+realizó un analisis de componentes principales (PCA) para analizar las variaciones entre
+grupos, y determinar los metabolitos específicos que estan asociados a la cachexia.
+
+## Resultados
+
+### Generación del contendor
+
+Se realiza un análisis del conjunto de datos metabolómicos obtenidos del conjunto
+de muestras de orina. Comenzamos cargando los datos a partir del archivo CSV, usando
+la primera fila de nuestros datos como el título de nuestras filas, lo que corresponde
+con el ID del paciente. Además reestructuramos la variable Muscle.loss en factores, para 
+facilitar el análisis.
+
+```{r}
+human_cachexia <- read.csv("human_cachexia.csv", row.names = 1)
+
+human_cachexia$Muscle.loss <- as.factor(human_cachexia$Muscle.loss)
+str(human_cachexia)
+```
+
+El siguiente paso fue estructurar los datos para introducirlos en nuestro contenedor.
+Se crea la matriz de conteo con todos los datos metabolómicos, el objeto colData que 
+contendrá la información de las muestras. Además de el metadata con la información del
+experimento. Generamos finalmente el objeto SummarizedExperiment con toda la información
+del experimento.
+
+```{r}
+counts <- as.matrix(human_cachexia[, -1])
+counts <- t(counts)
+colData <- DataFrame(Muscle.loss = human_cachexia$Muscle.loss)
+
+metadata <- list(
+  general_information = "Successfully passed sanity check!",
+  samples = "Samples are not paired.",
+  groups = "2 groups were detected in samples.",
+  data_values = "All data values are numeric.",
+  missing_values = "A total of 0 (0%) missing values were detected."
+)
+
+se <- SummarizedExperiment(assays=list(counts=counts), colData=colData,
+                           metadata = metadata)
+se
+dimnames(se)
+colData(se)
+```
+
+A partir de nuestro objeto **se** podemos obtener la matriz de conteos con las
+concentraciones de los metabolitos para cada muestra. Además podemos filtrar los
+datos de metabolitos por grupo de muestras así como ver las distribuciones de las
+medias entre los mismos. 
+
+```{r}
+counts <- assay(se)
+head(counts,3)
+
+mean_control <- rowMeans(counts[,se$Muscle.loss=="control"])
+mean_cachexia <- rowMeans(counts[,se$Muscle.loss=="cachexic"])
+
+mean_comparison <- data.frame(
+  Media_Control = mean_control,
+  Media_Cachexia = mean_cachexia
+)
+mean_comparison
+
+```
+
+
+### Exploración de datos
+
+## Discusión y conclusiones
+
+## Repositorio de Github
