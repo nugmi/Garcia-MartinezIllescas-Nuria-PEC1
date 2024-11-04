@@ -30,16 +30,17 @@ library(factoextra)
 ## Abstract
 
 Este informe analiza la relación entre la pérdida de masa muscular (cachexia) y 
-el perfil metabolómico de muestras de orina de pacientes. A partir de datos obtenidos,
+el perfil metabolómico de muestras de orina en pacientes. A partir de los datos obtenidos,
 se estructuraron las muestras usando la clase SummarizedExperiment, y se aplicó 
 un análisis de componentes principales (PCA) para identificar diferencias entre 
 los grupos y metabolitos relevantes. Aunque el PCA no mostró una clara separación 
-entre pacientes con cachexia y controles, se observó que metabolitos como la creatina, 
+entre pacientes con cachexia y controles, observamos que metabolitos como la creatina, 
 el citrato y el hipopurato tienen una influencia significativa en la variabilidad. 
 Estos hallazgos sugieren que dichos metabolitos podrían ser potenciales biomarcadores 
-de cachexia, aunque se recomienda un análisis adicional para confirmar estos resultados,
-incluyendo la revisión de posibles valores atípicos que podrían estar afectando 
-la interpretación.
+de cachexia, aunque sería conveniente realizar un análisis adicional para confirmar 
+los resultados: incluyendo la revisión de posibles valores atípicos que podrían 
+estar afectando la interpretación, así como descartar aquellos valores cuya variación
+es mínima entre grupos favoreciendo así la identificación de los metabolitos decisivos.
 
 ## Objetivos
 
@@ -78,8 +79,10 @@ str(human_cachexia)
 El siguiente paso fue estructurar los datos para introducirlos en nuestro contenedor.
 Se crea la matriz de conteo con todos los datos metabolómicos, el objeto colData que 
 contendrá la información de las muestras. Además de el metadata con la información del
-experimento. Generamos finalmente el objeto SummarizedExperiment con toda la información
-del experimento.
+experimento. Para ello es necesario transponer los datos de los metabolitos, puesto que
+el contenedor SummarizedExperiment tiene una disposición tal que las columnas corresponden
+a las muestras y las filas a las medidas (en nuestro caso metabolitos). Generamos finalmente 
+el objeto SummarizedExperiment con toda la información del experimento.
 
 ```{r}
 counts <- as.matrix(human_cachexia[, -1])
@@ -162,7 +165,8 @@ title(main="PCA", line=1)
 ```
 
 No observamos un patrón claro que separe nuestros dos grupos en poblaciones diferenciales.
-Para profundizar más en nuestro analisis y visto que en la gráfica que se generó con
+
+Para profundizar más en nuestro análisis y visto que en la gráfica que se generó con
 las medias entre grupos, parece existir variaciones en algunos metabolitos concretos
 evaluamos la contribución de las variables a los componentes principales:
 
@@ -175,7 +179,7 @@ fviz_pca_var(pca,
              repel =TRUE)
 ```
 
-Tras este analisis observamos que creatina, citrato e hipopurato tienen una influncia
+Tras este análisis observamos que creatina, citrato e hipopurato tienen una influncia
 mayor que el resto de metabolitos a la hora de determinar la distribución del PCA. 
 
 ## Discusión y conclusiones
