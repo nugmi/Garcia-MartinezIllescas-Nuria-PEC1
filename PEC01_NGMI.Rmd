@@ -1,5 +1,5 @@
 ---
-title: "PEC 01"
+title: "PEC 01 · Las ómicas"
 author: "Nuria Garcia Martinez-Illescas"
 date: "2024-11-03"
 output: 
@@ -26,8 +26,6 @@ library(SummarizedExperiment)
 library(ggplot2)
 library(factoextra)
 ```
-
-# PEC 01 · Las ómicas
 
 ## Abstract
 
